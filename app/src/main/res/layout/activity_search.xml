@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_search_"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <SearchView
+        android:id="@+id/searchView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:focusable="true"
+        android:layout_marginTop="10dp"
+        android:queryHint="enter your location here"
+        android:background="@android:color/white"
+        android:focusableInTouchMode="true"
+        android:layout_marginRight="20dp">
+    </SearchView>
+    <ListView
+        android:id="@+id/list_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/searchView1"
+        android:layout_marginLeft="20dp"
+        android:divider="@android:color/black"
+        android:dividerHeight="1dip"
+        android:layout_marginRight="20dp">
+    </ListView>
+
+</RelativeLayout>

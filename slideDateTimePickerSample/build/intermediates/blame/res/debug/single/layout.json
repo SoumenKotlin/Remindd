@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/res/merged/debug/layout/fragment_date.xml",
+        "source": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/exploded-aar/Mappsepnavigation/slideDateTimePicker/unspecified/res/layout/fragment_date.xml"
+    },
+    {
+        "merged": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/res/merged/debug/layout/slide_date_time_picker.xml",
+        "source": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/exploded-aar/Mappsepnavigation/slideDateTimePicker/unspecified/res/layout/slide_date_time_picker.xml"
+    },
+    {
+        "merged": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/res/merged/debug/layout/custom_tab.xml",
+        "source": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/exploded-aar/Mappsepnavigation/slideDateTimePicker/unspecified/res/layout/custom_tab.xml"
+    },
+    {
+        "merged": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/res/merged/debug/layout/activity_sample.xml",
+        "source": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/src/main/res/layout/activity_sample.xml"
+    },
+    {
+        "merged": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/res/merged/debug/layout/fragment_time.xml",
+        "source": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/exploded-aar/Mappsepnavigation/slideDateTimePicker/unspecified/res/layout/fragment_time.xml"
+    }
+]
