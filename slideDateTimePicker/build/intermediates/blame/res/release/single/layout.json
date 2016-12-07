@@ -1,18 +1,18 @@
 [
     {
-        "merged": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePicker/build/intermediates/res/merged/release/layout/fragment_date.xml",
-        "source": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePicker/src/main/res/layout/fragment_date.xml"
+        "merged": "/home/rishav/Documents/AndroidProjets/Mappsepnavigation/slideDateTimePicker/build/intermediates/res/merged/release/layout/slide_date_time_picker.xml",
+        "source": "/home/rishav/Documents/AndroidProjets/Mappsepnavigation/slideDateTimePicker/src/main/res/layout/slide_date_time_picker.xml"
     },
     {
-        "merged": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePicker/build/intermediates/res/merged/release/layout/slide_date_time_picker.xml",
-        "source": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePicker/src/main/res/layout/slide_date_time_picker.xml"
+        "merged": "/home/rishav/Documents/AndroidProjets/Mappsepnavigation/slideDateTimePicker/build/intermediates/res/merged/release/layout/fragment_time.xml",
+        "source": "/home/rishav/Documents/AndroidProjets/Mappsepnavigation/slideDateTimePicker/src/main/res/layout/fragment_time.xml"
     },
     {
-        "merged": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePicker/build/intermediates/res/merged/release/layout/custom_tab.xml",
-        "source": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePicker/src/main/res/layout/custom_tab.xml"
+        "merged": "/home/rishav/Documents/AndroidProjets/Mappsepnavigation/slideDateTimePicker/build/intermediates/res/merged/release/layout/fragment_date.xml",
+        "source": "/home/rishav/Documents/AndroidProjets/Mappsepnavigation/slideDateTimePicker/src/main/res/layout/fragment_date.xml"
     },
     {
-        "merged": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePicker/build/intermediates/res/merged/release/layout/fragment_time.xml",
-        "source": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePicker/src/main/res/layout/fragment_time.xml"
+        "merged": "/home/rishav/Documents/AndroidProjets/Mappsepnavigation/slideDateTimePicker/build/intermediates/res/merged/release/layout/custom_tab.xml",
+        "source": "/home/rishav/Documents/AndroidProjets/Mappsepnavigation/slideDateTimePicker/src/main/res/layout/custom_tab.xml"
     }
 ]

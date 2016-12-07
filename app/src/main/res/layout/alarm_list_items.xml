@@ -2,15 +2,14 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
+    android:layout_marginTop="10dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp">
 
     <RelativeLayout
         android:id="@+id/markerClickLayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/marker_name"
@@ -21,8 +20,9 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:text="Name"
-            android:textAlignment="center"
-            android:textSize="30sp" />
+            android:textColor="#000000"
+            android:textStyle="bold"
+            style="?android:attr/textAppearanceMedium" />
 
         <LinearLayout
             android:id="@+id/buttonsLayout"
@@ -71,10 +71,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/marker_name"
             android:layout_marginLeft="10dp"
+            android:layout_alignParentLeft="true"
             android:layout_marginTop="20dp"
             android:text="Description"
-            android:textAlignment="center"
-            android:textSize="20sp" />
+            android:layout_toLeftOf="@+id/journeyType"
+            android:layout_marginRight="20dp"
+            android:textColor="#000000"
+            style="?android:attr/textAppearanceSmall"/>
 
         <TextView
             android:id="@+id/journeyType"
@@ -115,6 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Start date"
+                    android:textColor="#000000"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -137,6 +141,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="End date"
+                    android:textColor="#000000"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -158,6 +163,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Radius"
+                    android:textColor="#000000"
                     android:textStyle="bold" />
 
             </LinearLayout>

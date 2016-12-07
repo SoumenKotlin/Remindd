@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+        "outputFile": "/home/rishav/Documents/AndroidProjets/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 112
                 },
                 "from": {
-                    "file": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/exploded-aar/Mappsepnavigation/slideDateTimePicker/unspecified/res/values/values.xml",
+                    "file": "/home/rishav/Documents/AndroidProjets/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/exploded-aar/Mappsepnavigation/slideDateTimePicker/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -30,7 +30,7 @@
                     "endOffset": 175
                 },
                 "from": {
-                    "file": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/exploded-aar/Mappsepnavigation/slideDateTimePicker/unspecified/res/values/values.xml",
+                    "file": "/home/rishav/Documents/AndroidProjets/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/exploded-aar/Mappsepnavigation/slideDateTimePicker/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -49,7 +49,7 @@
                     "endOffset": 239
                 },
                 "from": {
-                    "file": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/src/main/res/values/strings.xml",
+                    "file": "/home/rishav/Documents/AndroidProjets/Mappsepnavigation/slideDateTimePickerSample/src/main/res/values/strings.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -69,7 +69,7 @@
                     "endOffset": 535
                 },
                 "from": {
-                    "file": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/src/main/res/values/styles.xml",
+                    "file": "/home/rishav/Documents/AndroidProjets/Mappsepnavigation/slideDateTimePickerSample/src/main/res/values/styles.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -90,7 +90,7 @@
                     "endOffset": 695
                 },
                 "from": {
-                    "file": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/src/main/res/values/styles.xml",
+                    "file": "/home/rishav/Documents/AndroidProjets/Mappsepnavigation/slideDateTimePickerSample/src/main/res/values/styles.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,

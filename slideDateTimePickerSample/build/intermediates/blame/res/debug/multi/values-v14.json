@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v14/values-v14.xml",
+        "outputFile": "/home/rishav/Documents/AndroidProjets/Mappsepnavigation/slideDateTimePickerSample/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v14/values-v14.xml",
         "map": [
             {
                 "to": {
@@ -12,7 +12,7 @@
                     "endOffset": 187
                 },
                 "from": {
-                    "file": "/home/rishav/Desktop/Mappsepnavigation/slideDateTimePickerSample/src/main/res/values-v14/styles.xml",
+                    "file": "/home/rishav/Documents/AndroidProjets/Mappsepnavigation/slideDateTimePickerSample/src/main/res/values-v14/styles.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
