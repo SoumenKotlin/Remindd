@@ -37,8 +37,8 @@ public class SearchActivity extends AppCompatActivity
     ArrayAdapter<String> arrayAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         search=(SearchView) findViewById(R.id.searchView1);

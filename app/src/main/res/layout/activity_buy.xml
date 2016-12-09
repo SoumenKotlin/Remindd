@@ -57,9 +57,11 @@
                 android:text="Total Cost"/>
 
             <TextView
+                android:id="@+id/price1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rs. 120.00"
+                android:textColor="@color/colorPrimaryDark"
                 android:layout_marginTop="15dp"/>
 
         </LinearLayout>
@@ -75,7 +77,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginRight="10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/view2"
+            android:layout_marginRight="5dp"
             android:padding="10dp">
 
             <TextView
@@ -139,9 +143,11 @@
                 android:text="Total Cost"/>
 
             <TextView
+                android:id="@+id/price2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rs. 300.00"
+                android:textColor="@color/colorPrimaryDark"
                 android:layout_marginTop="15dp"/>
 
         </LinearLayout>
@@ -157,7 +163,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginRight="10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/view22"
+            android:layout_marginRight="5dp"
             android:padding="10dp">
 
             <TextView
@@ -221,9 +229,11 @@
                 android:text="Total Cost"/>
 
             <TextView
+                android:id="@+id/price3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rs. 630.00"
+                android:text="Rs. 620.00"
+                android:textColor="@color/colorPrimaryDark"
                 android:layout_marginTop="15dp"/>
 
         </LinearLayout>
@@ -239,7 +249,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginRight="10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/view32"
+            android:layout_marginRight="5dp"
             android:padding="10dp">
 
             <TextView

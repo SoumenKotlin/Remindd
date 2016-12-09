@@ -15,7 +15,6 @@
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="wrap_content"
-
         android:layout_height="match_parent">
 
 
@@ -128,7 +127,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/marker_description"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="50dp"
                         android:orientation="horizontal"
                         android:weightSum="3">
 
@@ -199,54 +198,53 @@
 
                         </LinearLayout>
 
-
                     </LinearLayout>
-
 
                 </RelativeLayout>
             </fragment>
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/custom_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:paddingTop="20dp"
+            android:visibility="gone"
+            android:paddingBottom="20dp"
+            android:layout_marginTop="?android:attr/actionBarSize">
 
-            <LinearLayout
-                android:id="@+id/custom_location"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/currentLocation"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:background="#ffffff"
-                android:layout_marginTop="?android:attr/actionBarSize"
-                android:weightSum="2">
+                android:layout_marginLeft="10dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:paddingTop="11dp"
+                android:paddingBottom="11dp"
+                android:layout_alignParentLeft="true"
+                android:text="Use Current \n Location"
+                android:background="@drawable/round_shape"
+                android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
-                <Button
-                    android:id="@+id/currentLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="30dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimaryDark"
-                    android:text="Use Current \n Location"
-                    android:textColor="@color/common_google_signin_btn_text_dark_default"
-                    android:textSize="15dp" />
+            <Button
+                android:id="@+id/customAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:paddingTop="21dp"
+                android:paddingBottom="20dp"
+                android:layout_alignParentRight="true"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:background="@drawable/round_shape"
+                android:text="Enter Address"
+                android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
-                <Button
-                    android:id="@+id/customAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="30dp"
-                    android:layout_marginTop="38dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimaryDark"
-                    android:text="Enter Address"
-                    android:textColor="@color/common_google_signin_btn_text_dark_default"
-                    android:textSize="15dp" />
+        </RelativeLayout>
 
-            </LinearLayout>
 
 
         <include

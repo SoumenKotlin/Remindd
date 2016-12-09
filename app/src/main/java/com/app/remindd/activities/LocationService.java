@@ -102,15 +102,16 @@ public class LocationService extends Service implements LocationListener, TextTo
         Location gpsLoc = locationManager.getLastKnownLocation("gps");
         Location networkLoc = locationManager.getLastKnownLocation("network");
 
-        if (gpsLoc == null) {
+        if (gpsLoc != null) {
             Log.e("Gps", "Gps is null");
             locationManager.requestLocationUpdates("gps", 0, 1, this);
 
         }
+        else if (networkLoc != null) {
+                Log.e("Network", "Network is null");
+                locationManager.requestLocationUpdates("network", 0, 1, this);
+            }
 
-        if (networkLoc == null)
-            Log.e("Network", "Network is null");
-        locationManager.requestLocationUpdates("network", 0, 1, this);
 
         if (gpsLoc == null && networkLoc == null) {
             Toast.makeText(LocationService.this, "Please make sure you have active internet connection or gps", Toast.LENGTH_SHORT).show();
@@ -146,8 +147,6 @@ public class LocationService extends Service implements LocationListener, TextTo
 
             }
 
-            Log.e("Radius: ", "" + radius);
-
             String playPauseStatus = values.getPlayPauseStatus();
             Location startPoint = new Location("Source");
             startPoint.setLatitude(current_lat);
@@ -179,35 +178,33 @@ public class LocationService extends Service implements LocationListener, TextTo
                         tts.stop();
                     } else {
                         Config.value = 1;
+                        tts.speak("You are near to " + values.getName() + values.getDec(), TextToSpeech.QUEUE_FLUSH, null);
 
                         if (MyApplication.isActivityVisible()) {
                             Intent intent = new Intent();
                             intent.setAction(MY_ACTION);
-                            intent.putExtra("name", values.getName());
-                            intent.putExtra("dec", values.getDec());
-                            intent.putExtra("lat", values.getLat());
+                            intent.putExtra("name1", values.getName());
+                            intent.putExtra("dec1", values.getDec());
+                            intent.putExtra("lat1", values.getLat());
                             sendBroadcast(intent);
                         } else {
                             Intent intent = new Intent(getApplicationContext(), HomeMapActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("name", values.getName());
+                            intent.putExtra("dec", values.getDec());
+                            intent.putExtra("lat", values.getLat());
                             getApplicationContext().startActivity(intent);
-
-                            Intent intent1 = new Intent();
-                            intent1.setAction(MY_ACTION);
-                            intent1.putExtra("name", values.getName());
-                            intent1.putExtra("dec", values.getDec());
-                            intent1.putExtra("lat", values.getLat());
-                            sendBroadcast(intent1);
 
                         }
 
-                        tts.speak("You are near to " + values.getName() + values.getDec(), TextToSpeech.QUEUE_FLUSH, null);
-                        Toast.makeText(getApplicationContext(), "Within the coverage: " + distance, Toast.LENGTH_LONG).show();
+
+                       // Toast.makeText(getApplicationContext(), "Within the coverage: " + distance, Toast.LENGTH_LONG).show();
                     }
 
                 }
             }
+
 
             if (distance_out != 0 && distance >= radius && playPauseStatus.equals("play") && Utils.getDateTime().compareTo(db_startDate) >= 0 &&
                     Utils.getDateTime().compareTo(db_endDate) <= 0) {
@@ -218,37 +215,38 @@ public class LocationService extends Service implements LocationListener, TextTo
                         tts.stop();
                     } else {
 
+                        Config.value = 1;
+                        tts.speak("You are near to " + values.getName() + values.getDec(), TextToSpeech.QUEUE_FLUSH, null);
+
                         if (MyApplication.isActivityVisible()) {
                             Intent intent = new Intent();
                             intent.setAction(MY_ACTION);
-                            intent.putExtra("name", values.getName());
-                            intent.putExtra("dec", values.getDec());
-                            intent.putExtra("lat", values.getLat());
+                            intent.putExtra("name1", values.getName());
+                            intent.putExtra("dec1", values.getDec());
+                            intent.putExtra("lat1", values.getLat());
                             sendBroadcast(intent);
                         } else {
                             Intent intent = new Intent(getApplicationContext(), HomeMapActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("name", values.getName());
+                            intent.putExtra("dec", values.getDec());
+                            intent.putExtra("lat", values.getLat());
                             getApplicationContext().startActivity(intent);
 
-                            Intent intent1 = new Intent();
+                         /*   Intent intent1 = new Intent();
                             intent1.setAction(MY_ACTION);
-                            intent1.putExtra("name", values.getName());
-                            intent1.putExtra("dec", values.getDec());
-                            intent1.putExtra("lat", values.getLat());
-                            sendBroadcast(intent1);
+
+                            sendBroadcast(intent1);*/
 
                         }
 
-                        Config.value = 1;
-                        tts.speak("You are near to " + values.getName() + values.getDec(), TextToSpeech.QUEUE_FLUSH, null);
-                        Toast.makeText(getApplicationContext(), "Going out from the coverage: " + distance, Toast.LENGTH_LONG).show();
+
+                       // Toast.makeText(getApplicationContext(), "Going out from the coverage: " + distance, Toast.LENGTH_LONG).show();
                     }
 
                 }
             }
-
-
 
 
         }
@@ -262,12 +260,12 @@ public class LocationService extends Service implements LocationListener, TextTo
 
     @Override
     public void onProviderEnabled(String provider) {
-        Toast.makeText(LocationService.this, provider + "has been enabled", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-        Toast.makeText(LocationService.this, provider + "has been disabled", Toast.LENGTH_SHORT).show();
+
     }
 
 

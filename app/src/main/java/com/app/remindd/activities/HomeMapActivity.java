@@ -5,11 +5,14 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -17,6 +20,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -41,13 +45,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.app.remindd.R;
 import com.app.remindd.database.Config;
 import com.app.remindd.database.Longtap;
 import com.app.remindd.database.MyDatabase;
+import com.app.remindd.util.IabHelper;
+import com.app.remindd.util.IabResult;
+import com.app.remindd.util.Inventory;
+import com.app.remindd.util.Purchase;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
 import com.google.android.gms.common.ConnectionResult;
@@ -68,9 +75,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static android.view.View.GONE;
 import static com.app.remindd.R.id.journeyType;
+import static com.app.remindd.activities.BuyActivity.ITEMS;
 
 public class HomeMapActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener,
@@ -107,7 +116,7 @@ public class HomeMapActivity extends AppCompatActivity implements NavigationView
     private int mYear, mMonth, mDay, mHour, mMinute;
 
     String dateTime;
-    LinearLayout custom_location;
+    RelativeLayout custom_location;
 
     ImageView img_play, img_pause, img_edit, img_done;
 
@@ -131,6 +140,12 @@ public class HomeMapActivity extends AppCompatActivity implements NavigationView
 
     MyReceiver myReceiver;
 
+    IabHelper mHelper;
+
+    int reminder_purchased = 0;
+
+    String str_name, str_dec, str_lat;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +156,12 @@ public class HomeMapActivity extends AppCompatActivity implements NavigationView
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Intent i = getIntent();
+
+        str_name = i.getStringExtra("name");
+        str_dec = i.getStringExtra("dec");
+        str_lat = i.getStringExtra("lat");
 
         img_play = (ImageView) findViewById(R.id.img_play);
         img_pause = (ImageView) findViewById(R.id.img_pause);
@@ -192,7 +213,67 @@ public class HomeMapActivity extends AppCompatActivity implements NavigationView
 
         alarmDialog();
 
+        checkInApp();
+
     }
+
+    void checkInApp() {
+        String base64EncodedPublicKey =
+                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApBA3MPUXLXn7WiR+WkI/0N+cs5u210gZgpbC5/tjgz4gjubK4TcSbEvNigpMAtofe2yrHIe9AUT+ZI+RXP8sgl4DmRR+V/g2rQEZxMQaP0rmTK7mSWcJOdpd0VQcjxRXO3C4usBV54Q1veJPPbfsCqDE46/n2MwLAId5OyrWtxIXEaUgQDWCDd+XtvcbFAOrvS8IXpzoR2aV0I9e22fZebOO611XAZp3OmhlSlMkME57BAOteH8rl/+whn55A+kA6rcvVdCvsXl6W53OjD+mSi/hlhah6/7SAkMoiCpNWNkumeW7G5KuuoC+ALahVENHYFX4KpM2qRGrc85xwHG33wIDAQAB";
+
+        mHelper = new IabHelper(this, base64EncodedPublicKey);
+
+        mHelper.startSetup(new
+                                   IabHelper.OnIabSetupFinishedListener() {
+                                       public void onIabSetupFinished(IabResult result)
+                                       {
+
+                                           if (!result.isSuccess()) {
+                                               Log.e("hu", ""+result);
+                                           } else {
+                                               Log.e("ha", "ok");
+                                               try {
+                                                   mHelper.queryInventoryAsync(mGotInventoryListener);
+                                               } catch (IabHelper.IabAsyncInProgressException e) {
+                                                   e.printStackTrace();
+                                               }
+                                           }
+                                       }
+                                   });
+    }
+
+    IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
+        public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+            Log.d("PAY", "Query inventory finished.");
+
+            // Have we been disposed of in the meantime? If so, quit.
+            if (mHelper == null)
+                return;
+
+            Purchase purchase1 = inventory.getPurchase(ITEMS[0]);
+            Purchase purchase2 = inventory.getPurchase(ITEMS[1]);
+            Purchase purchase3 = inventory.getPurchase(ITEMS[2]);
+
+
+            //purchased
+            if (purchase1 != null) {
+
+                reminder_purchased = 10;
+
+            }
+            if (purchase2 != null) {
+                reminder_purchased = 20;
+            }
+
+            if (purchase3 != null) {
+
+                reminder_purchased = 100;
+            }
+            /*else {
+                Toast.makeText(BuyActivity.this, "Not purchased", Toast.LENGTH_SHORT).show();
+            }*/
+        }
+    };
 
     public void alarmDialog() {
         dialog = new Dialog(this);
@@ -291,7 +372,7 @@ public class HomeMapActivity extends AppCompatActivity implements NavigationView
         img_customLayout = (ImageView) findViewById(R.id.img_customLayout);
         img_locationsList = (ImageView) findViewById(R.id.img_locationsList);
 
-        custom_location = (LinearLayout) findViewById(R.id.custom_location);
+        custom_location = (RelativeLayout) findViewById(R.id.custom_location);
 
         img_map.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -491,75 +572,6 @@ public class HomeMapActivity extends AppCompatActivity implements NavigationView
     };
 
 
-/*    public void dateTimeDialog() {
-        //   final Calendar c = Calendar.getInstance();
-
-    *//*    mYear = calendar.get(Calendar.YEAR);
-        mMonth = calendar.get(Calendar.MONTH);
-        mDay = calendar.get(Calendar.DAY_OF_MONTH);
-
-
-    final    DatePickerDialog dpd = new DatePickerDialog(this,
-                new DatePickerDialog.OnDateSetListener() {
-
-                    @Override
-                    public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
-
-                        if (dateTime.equals("START")) {
-                            startDate.setText(dayOfMonth + "-"
-                                    + (monthOfYear + 1) + "-" + year);
-                            calendar.set(Calendar.YEAR, year);
-                            calendar.set(Calendar.MONTH, monthOfYear);
-                            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                            mYear = year;
-                            mMonth = monthOfYear + 1;
-                            mDay = dayOfMonth;
-
-                           // timeDialog();
-                        } else {
-                            endDate.setText(dayOfMonth + "-"
-                                    + (monthOfYear + 1) + "-" + year);
-                            // timeDialog();
-                        }
-
-                    }
-                }, mYear, mMonth, mDay);
-
-
-        //  dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-        // if(!dateTime.equals("START"))
-        dpd.getDatePicker().setMinDate(calendar.getTimeInMillis());
-        dpd.show();*//*
-
-    }
-
-
-    void timeDialog() {
-        Toast.makeText(mActivity, "" + mMonth, Toast.LENGTH_SHORT).show();
-        final TimePickerDialog tpd = new TimePickerDialog(this,
-                new TimePickerDialog.OnTimeSetListener() {
-
-
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                          int minute) {
-
-                        //  txtTime.setText(hourOfDay + ":" + minute);
-                        if (minute >= Calendar.getInstance().get(Calendar.MINUTE)
-                                && hourOfDay >= Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-                                && mDay >= Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
-
-                        } else {
-                            Toast.makeText(mActivity, "Please choose the correct time", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, mHour, mMinute, false);
-
-        tpd.show();
-    }*/
-
-
     public void setMarkerData() {
         String journey_name = journeyName.getText().toString();
         String journey_description = journeyDescription.getText().toString();
@@ -593,7 +605,53 @@ public class HomeMapActivity extends AppCompatActivity implements NavigationView
 
         journeyDialog.dismiss();
 
+        SQLiteDatabase sqLiteDatabase = database.getWritableDatabase();
+        String count = "SELECT count(*) FROM taplisttable";
+        Cursor mCursor = sqLiteDatabase.rawQuery(count, null);
+        mCursor.moveToFirst();
+        final int icount = mCursor.getInt(0);
+
+        alertDialog.setTitle("Buy Reminders");
+        alertDialog.setMessage("Buy reminders to add more locations");
+        alertDialog.setPositiveButton("Buy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+                Intent intent = new Intent(mActivity, BuyActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        alertDialog.setNegativeButton("Later", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+
+
+        if (reminder_purchased == 0) {
+            if (icount > 4) {
+                alertDialog.create().show();
+                return;
+            }
+        }
+        else if (reminder_purchased == 10) {
+            if (icount > 9) {
+                alertDialog.create().show();
+                return;
+            }
+        }
+        else if (reminder_purchased == 20) {
+            if (icount > 19) {
+                alertDialog.create().show();
+                return;
+            }
+        }
+
+
         if (value.equals("add")) {
+
             long insert = database.insertData(new Longtap(journey_radius, journey_name, journey_description,
                     start_date, end_date, toggleStatus, latitude, longitude, playPauseStatus, Config.units));
 
@@ -605,7 +663,6 @@ public class HomeMapActivity extends AppCompatActivity implements NavigationView
                         fromResource(R.drawable.ic_icon_pin)));
 
                 Intent i = new Intent(mActivity, LocationService.class);
-
                 startService(i);
 
             }
@@ -613,6 +670,8 @@ public class HomeMapActivity extends AppCompatActivity implements NavigationView
             boolean update = database.updateValues(latitude, new Longtap(journey_radius, journey_name, journey_description,
                     start_date, end_date, toggleStatus, Config.units));
         }
+
+
 
     }
 
@@ -710,29 +769,44 @@ public class HomeMapActivity extends AppCompatActivity implements NavigationView
         img_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                marker1.remove();
-                markerClickLayout.setVisibility(GONE);
+                alertDialog.setTitle("Mark complete");
+                alertDialog.setMessage("Marking complete will delete location permanently");
+                alertDialog.setPositiveButton("Go ahead", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                        marker1.remove();
+                        markerClickLayout.setVisibility(GONE);
 
-                for (Longtap longtap : values) {
-                    String db_latitude = longtap.getLat();
-                    String db_longitude = longtap.getLog();
+                        for (Longtap longtap : values) {
+                            String db_latitude = longtap.getLat();
+                            String db_longitude = longtap.getLog();
 
-                    Log.e("Marker lat: ", "" + marker_lat);
-                    Log.e("db lat:", "" + db_latitude);
+                            Log.e("Marker lat: ", "" + marker_lat);
+                            Log.e("db lat:", "" + db_latitude);
 
-                    if (marker_lat.equals(db_latitude) && marker_lng.equals(db_longitude)) {
-                        int id = longtap.get_id();
+                            if (marker_lat.equals(db_latitude) && marker_lng.equals(db_longitude)) {
+                                int id = longtap.get_id();
 
-                        Log.e("ID: ", "" + id);
+                                Log.e("ID: ", "" + id);
 
-                        boolean delete = database.deleteRow(marker_lat);
+                                boolean delete = database.deleteRow(marker_lat);
 
-                        if (delete) {
-                            Log.e("Row Deleted", "successfully");
+                                if (delete) {
+                                    Log.e("Row Deleted", "successfully");
+                                }
+
+                            }
                         }
-
                     }
-                }
+                });
+                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                }).create().show();
+
             }
         });
 
@@ -905,13 +979,17 @@ public class HomeMapActivity extends AppCompatActivity implements NavigationView
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
+
+
+        unregisterReceiver(myReceiver);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        unregisterReceiver(myReceiver);
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 
     @Override
@@ -920,15 +998,12 @@ public class HomeMapActivity extends AppCompatActivity implements NavigationView
 
         MyApplication.activityResumed();
 
-     /*   Intent i = getIntent();
 
-        String name = i.getStringExtra("name");
-        String dec = i.getStringExtra("dec");
 
-        if (name != null) {
-            locName.setText(name);
-            locDescription.setText(dec);
-        }*/
+        if(str_name != null) {
+            showAlert(str_name, str_dec, str_lat);
+        }
+
         if (mMap != null) {
             mMap.clear();
             showMarkers();
@@ -944,7 +1019,6 @@ public class HomeMapActivity extends AppCompatActivity implements NavigationView
             img_locationsList.setImageResource(R.drawable.ic_icon_alarmlist_black);
             custom_location.setVisibility(View.VISIBLE);
         }
-
     }
 
     @Override
@@ -1057,15 +1131,53 @@ public class HomeMapActivity extends AppCompatActivity implements NavigationView
       /*
 
         }*/
+
+
         if (id == R.id.rate) {
 
-            Toast.makeText(mActivity, "Please wait for the link of play store", Toast.LENGTH_LONG).show();
+          /*  final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }*/
+
+
+            Intent rateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + mActivity.getPackageName()));
+            boolean marketFound = false;
+
+            // find all applications able to handle our rateIntent
+            final List<ResolveInfo> otherApps = HomeMapActivity.this.getPackageManager().queryIntentActivities(rateIntent, 0);
+            for (ResolveInfo otherApp: otherApps) {
+                // look for Google Play application
+                if (otherApp.activityInfo.applicationInfo.packageName.equals("com.android.vending")) {
+
+                    ActivityInfo otherAppActivity = otherApp.activityInfo;
+                    ComponentName componentName = new ComponentName(
+                            otherAppActivity.applicationInfo.packageName,
+                            otherAppActivity.name
+                    );
+                    rateIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                    rateIntent.setComponent(componentName);
+                    startActivity(rateIntent);
+                    marketFound = true;
+                    break;
+
+                }
+            }
+
+            // if GP not present on device, open web browser
+            if (!marketFound) {
+                Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id="+mActivity.getPackageName()));
+                startActivity(webIntent);
+            }
 
         } else if (id == R.id.share) {
 
             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-            sharingIntent.setType("text/html");
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml("<p>Welcome Remindd.</p>"));
+            sharingIntent.setType("text/*");
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml("<p>Hey, use this amazing app to set location based reminders on the go." +
+                    "It's very easy to use. Here is the link : https://play.google.com/store/apps/details?id=com.app.remindd</p>"));
             startActivity(Intent.createChooser(sharingIntent, "Share using..."));
         } else if (id == R.id.buy) {
             Intent i = new Intent(mActivity, BuyActivity.class);
@@ -1097,74 +1209,70 @@ public class HomeMapActivity extends AppCompatActivity implements NavigationView
     }
 
 
+
     private class MyReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(final Context arg0, Intent intent) {
             // TODO Auto-generated method stub
 
-            String name = intent.getStringExtra("name");
-            String dec = intent.getStringExtra("dec");
-            final String lat = intent.getStringExtra("lat");
+            String name = intent.getStringExtra("name1");
+            String dec = intent.getStringExtra("dec1");
+            final String lat = intent.getStringExtra("lat1");
 
-            if (name != null) {
-                dialog.show();
+            if (name != null)
+                showAlert(name, dec, lat);
+        }
 
-                locName.setText(name);
-                locDescription.setText(dec);
+    }
 
-            }
 
-            final MediaPlayer media = MediaPlayer.create(arg0, R.raw.alerttone);
+    void showAlert(String name, String dec, final String lat) {
+
+        str_name = null;
+        str_dec = null;
+        str_lat = null;
+
+        final MediaPlayer media = MediaPlayer.create(mActivity, R.raw.alerttone);
+        if (!media.isPlaying() && !dialog.isShowing()) {
+            dialog.show();
             media.start();
             media.setLooping(true);
+              locName.setText(name);
+            locDescription.setText(dec);
+        }
 
-            btnComplete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    boolean delete = database.deleteRow(lat);
-                    if (delete) {
-                        Toast.makeText(arg0, "Marked complete", Toast.LENGTH_SHORT).show();
+        btnComplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean delete = database.deleteRow(lat);
+                if (delete) {
+                    //  Toast.makeText(arg0, "Marked complete", Toast.LENGTH_SHORT).show();
 
-                        mMap.clear();
-                        showMarkers();
+                    mMap.clear();
+                    showMarkers();
 
-                        if(media.isPlaying()) {
-                            media.stop();
-                        }
-                        dialog.dismiss();
-
-                        Config.value = 0;
+                    if(media.isPlaying()) {
+                        media.stop();
                     }
+                    dialog.dismiss();
 
+                    Config.value = 0;
                 }
-            });
 
-            btnPause.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    boolean update = database.updateStatus(lat, "pause");
+            }
+        });
 
-                    if (update) {
-                        Toast.makeText(arg0, "Marker paused", Toast.LENGTH_SHORT).show();
+        btnPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean update = database.updateStatus(lat, "pause");
 
-                        mMap.clear();
-                        showMarkers();
+                if (update) {
+                    // Toast.makeText(arg0, "Marker paused", Toast.LENGTH_SHORT).show();
 
-                        if(media.isPlaying()) {
-                            media.stop();
-                        }
-
-                        dialog.dismiss();
-
-                        Config.value = 0;
-                    }
-                }
-            });
-
-            btnOk.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+                    mMap.clear();
+                    showMarkers();
 
                     if(media.isPlaying()) {
                         media.stop();
@@ -1174,10 +1282,23 @@ public class HomeMapActivity extends AppCompatActivity implements NavigationView
 
                     Config.value = 0;
                 }
-            });
+            }
+        });
 
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        }
+                if(media.isPlaying()) {
+                    media.stop();
+                }
+
+                dialog.dismiss();
+
+                Config.value = 0;
+            }
+        });
+
 
     }
 
